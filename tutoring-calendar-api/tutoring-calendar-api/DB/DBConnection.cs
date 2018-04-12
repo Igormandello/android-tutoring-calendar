@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace rest_api.DB
+namespace tutoring_calendar_api.DB
 {
     public class DBConnection
     {
