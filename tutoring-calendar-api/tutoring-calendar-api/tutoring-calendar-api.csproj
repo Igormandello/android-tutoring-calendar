@@ -179,6 +179,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TutorController.cs" />
+    <Compile Include="Controllers\TutorScheduleController.cs" />
     <Compile Include="DB\DBConnection.cs" />
     <Compile Include="DB\Repositories\IRepository.cs" />
     <Compile Include="DB\Repositories\TutorRepository.cs" />
@@ -244,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TutorSchedule\" />
     <Folder Include="Views\Tutor\" />
   </ItemGroup>
   <ItemGroup>
