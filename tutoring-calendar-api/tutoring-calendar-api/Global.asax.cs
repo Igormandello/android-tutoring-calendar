@@ -1,5 +1,7 @@
-﻿using System;
+﻿using rest_api.DB;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -13,6 +15,12 @@ namespace tutoring_calendar_api
     {
         protected void Application_Start()
         {
+            String str;
+            using (StreamReader r = new StreamReader(System.AppDomain.CurrentDomain.BaseDirectory + "//..//db.dat"))
+                str = r.ReadToEnd();
+
+            new DBConnection(str);
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
