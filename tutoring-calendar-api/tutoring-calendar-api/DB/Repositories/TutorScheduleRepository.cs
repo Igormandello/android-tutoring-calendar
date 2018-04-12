@@ -22,6 +22,19 @@ namespace tutoring_calendar_api.DB.Repositories
             return schedules;
         }
 
+        public List<TutorSchedule> GetByRA(int ra)
+        {
+            SqlDataReader rdr = null;
+            rdr = DBConnection.ExecuteReader("select * from tutor_schedule where tutor_ra = " + ra);
+
+            List<TutorSchedule> schedules = new List<TutorSchedule>();
+            while (rdr.Read())
+                schedules.Add(new TutorSchedule(rdr.GetInt32(0), rdr.GetInt32(1), rdr.GetTimeSpan(2), rdr.GetInt32(3), rdr.GetInt32(4), rdr.GetString(5)));
+
+            rdr.Close();
+            return schedules;
+        }
+
         public TutorSchedule GetByID(int id)
         {
             SqlDataReader rdr = null;
