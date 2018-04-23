@@ -9,11 +9,13 @@ namespace tutoring_calendar_api.Models
     {
         public int RA { get; set; }
         public String Name { get; set; }
+        public String Description { get; set; }
 
-        public Tutor(int ra, string name)
+        public Tutor(int ra, string name, string description)
         {
             RA = ra;
             Name = name;
+            Description = description;
         }
     }
 }

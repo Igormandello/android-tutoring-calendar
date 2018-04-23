@@ -16,7 +16,7 @@ namespace tutoring_calendar_api.DB.Repositories
 
             List<Tutor> tutors = new List<Tutor>();
             while (rdr.Read())
-                tutors.Add(new Tutor(rdr.GetInt32(0), rdr.GetString(1)));
+                tutors.Add(new Tutor(rdr.GetInt32(0), rdr.GetString(1), (rdr.IsDBNull(2) ? "" : rdr.GetString(2))));
 
             rdr.Close();
             return tutors;
@@ -29,7 +29,7 @@ namespace tutoring_calendar_api.DB.Repositories
 
             Tutor tutor = null;
             if (rdr.Read())
-                tutor = new Tutor(rdr.GetInt32(0), rdr.GetString(1));
+                tutor = new Tutor(rdr.GetInt32(0), rdr.GetString(1), (rdr.IsDBNull(2) ? "" : rdr.GetString(2)));
 
             rdr.Close();
             return tutor;
@@ -37,12 +37,12 @@ namespace tutoring_calendar_api.DB.Repositories
 
         public void Insert(Tutor item)
         {
-            DBConnection.ExecuteNonQuery("insert into tutor values(" + item.RA + ", '" + item.Name + "')");
+            DBConnection.ExecuteNonQuery("insert into tutor values(" + item.RA + ", '" + item.Name + "', '" + item.Description + "')");
         }
 
         public void Update(Tutor item)
         {
-            DBConnection.ExecuteNonQuery("update tutor set name = '" + item.Name + "' where ra = " + item.RA);
+            DBConnection.ExecuteNonQuery("update tutor set name = '" + item.Name + "', description = '" + item.Description + "' where ra = " + item.RA);
         }
 
         public void Delete(int id)

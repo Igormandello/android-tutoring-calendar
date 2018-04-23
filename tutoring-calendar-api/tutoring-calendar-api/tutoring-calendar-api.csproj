@@ -178,7 +178,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PngFormatter.cs" />
     <Compile Include="Controllers\TutorController.cs" />
     <Compile Include="Controllers\TutorScheduleController.cs" />
     <Compile Include="DB\DBConnection.cs" />
