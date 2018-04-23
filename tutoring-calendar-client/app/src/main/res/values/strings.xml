@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">tutoring-calendar-client</string>
+    <string name="app_name">Monitorias PD</string>
+
+    <string-array name="week_days">
+        <item>Segunda-feira</item>
+        <item>Terça-feira</item>
+        <item>Quarta-feira</item>
+        <item>Quinta-feira</item>
+        <item>Sexta-feira</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
 </resources>
