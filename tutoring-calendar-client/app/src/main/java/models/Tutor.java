@@ -9,13 +9,11 @@ public class Tutor {
     private int ra;
     private String name;
     private String description;
-    private String imgPath;
 
-    public Tutor(int ra, String name, String description, String imgPath) {
+    public Tutor(int ra, String name, String description) {
         this.setRa(ra);
         this.setName(name);
         this.setDescription(description);
-        this.setImgPath(imgPath);
     }
 
     public int getRa() {
@@ -40,14 +38,6 @@ public class Tutor {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
     }
 
 }
