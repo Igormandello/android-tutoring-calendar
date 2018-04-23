@@ -1,7 +1,7 @@
 USE [BD16179]
 GO
 
-/****** Object:  Table [BD16179].[tutor]    Script Date: 12/04/2018 08:59:20 ******/
+/****** Object:  Table [BD16179].[tutor]    Script Date: 23/04/2018 11:10:40 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,6 +11,7 @@ GO
 CREATE TABLE [BD16179].[tutor](
 	[ra] [int] NOT NULL,
 	[name] [varchar](50) NOT NULL,
+	[description] [varchar](150) NULL,
  CONSTRAINT [PK_tutor] PRIMARY KEY CLUSTERED 
 (
 	[ra] ASC
