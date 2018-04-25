@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.unicamp.cotuca.tutoring_calendar_client.WeekDaySelected">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/txtWeekDaySelected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Dia da semana selecionado"
+        android:textSize="30sp" />
+
+    <ListView
+        android:id="@+id/lvWeekDaySchedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

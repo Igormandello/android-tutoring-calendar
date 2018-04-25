@@ -1,4 +1,4 @@
-package br.unicamp.cotuca.tutoring_calendar_client;
+package br.unicamp.cotuca.tutoring_calendar_client.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import br.unicamp.cotuca.tutoring_calendar_client.R;
 import models.Tutor;
 
 /**
@@ -24,7 +25,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
     private final ArrayList<Tutor> tutors;
 
     public TutorAdapter(@NonNull Context context, ArrayList<Tutor> tutors) {
-        super(context, R.layout.tutor_row, tutors);
+        super(context, R.layout.tutor_view, tutors);
         this.context = context;
         this.tutors = tutors;
     }
@@ -35,7 +36,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.tutor_row, parent, false);
+        View rowView = inflater.inflate(R.layout.tutor_view, parent, false);
 
         TextView txtTutorName = (TextView) rowView.findViewById(R.id.txtTutorName);
         TextView txtTutorDescription = (TextView) rowView.findViewById(R.id.txtTutorDescription);
