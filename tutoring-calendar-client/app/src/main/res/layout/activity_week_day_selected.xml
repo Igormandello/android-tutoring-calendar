@@ -11,8 +11,9 @@
         android:id="@+id/txtWeekDaySelected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="Dia da semana selecionado"
+        android:text="[dia-da-semana-selecionado]"
         android:textSize="30sp" />
 
     <ListView

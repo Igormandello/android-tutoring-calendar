@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="Nome do Monitor"
+        android:text="[nome-monitor]"
         android:textSize="30sp" />
 
     <ListView
