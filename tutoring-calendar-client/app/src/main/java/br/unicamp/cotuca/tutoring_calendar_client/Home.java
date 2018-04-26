@@ -8,7 +8,7 @@ import android.view.View;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
 
-    private CardView cardTutors, cardWeek, cardTime;
+    private CardView cardTutors, cardWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +17,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
         cardTutors = (CardView) findViewById(R.id.cardTutors);
         cardWeek = (CardView) findViewById(R.id.cardWeek);
-        cardTime = (CardView) findViewById(R.id.cardTime);
 
         cardTutors.setOnClickListener(this);
         cardWeek.setOnClickListener(this);
-        cardTime.setOnClickListener(this);
     }
 
     @Override
@@ -35,8 +33,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             case R.id.cardWeek:
                 i = new Intent(this, Week.class); break;
 
-            case R.id.cardTime:
-                i = new Intent(this, Time.class); break;
 
             default: break;
         }

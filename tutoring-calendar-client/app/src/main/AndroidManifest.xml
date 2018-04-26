@@ -25,12 +25,8 @@
         <activity
             android:name=".Tutors"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Time"
-            android:screenOrientation="portrait" />
         <activity android:name=".WeekDaySelected" />
         <activity android:name=".TutorSelected" />
-        <activity android:name=".TimeSelected"></activity>
     </application>
 
 </manifest>
