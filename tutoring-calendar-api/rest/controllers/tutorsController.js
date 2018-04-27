@@ -3,6 +3,7 @@ var express = require('express');
 var router  = express.Router();
 var mssql   = require('mssql');
 var sql     = require('../sql')
+var base64  = require('base64-img');
 
 // get /api/tutors/
 router.get('/', async (req,res) => {
@@ -21,8 +22,15 @@ router.get('/:ra', async (req,res) => {
 });
 
 // get /api/tutors/:ra/image
-router.get('/:ra/image', async (req,res) => {
+router.get('/:ra/image', (req,res) => {
+  let result
+  try {
+    result = base64.base64Sync('assets/' + req.params.ra + '.png')
+  } catch (e) {
+    result = base64.base64Sync('assets/no-image.png')
+  }
   
+  res.json(result)
 });
 
 module.exports = router;

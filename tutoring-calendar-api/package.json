@@ -11,6 +11,7 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "base64-img": "^1.0.4",
     "body-parser": "*",
     "dotenv": "^5.0.1",
     "express": "*",
