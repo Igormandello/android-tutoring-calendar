@@ -3,32 +3,17 @@ var express = require('express');
 var router = express.Router();
 
 // get /api/tutorSchedules/
-router.get('/',(req,res) => {
+router.get('/', async (req,res) => {
 
 });
 
 // get /api/tutorSchedules/:key
-router.get('/:key',(req,res) => {
+router.get('/:key', async (req,res) => {
  
 });
 
 // get /api/tutorSchedules/:ra/:weekday
-router.get('/:ra/:weekday',(req,res) => {
- 
-});
-
-// post /api/tutorSchedules/
-router.post('/',(req,res) => {
- 
-});
-
-// put /api/tutorSchedules/:id
-router.put('/:id',(req,res) => {
- 
-});
-
-// delete /api/tutorSchedules/:id
-router.delete('/:id',(req,res) => {
+router.get('/:ra/:weekday', async (req,res) => {
  
 });
 

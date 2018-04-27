@@ -11,9 +11,6 @@
           "": "GET",
           ":ra": "GET",
           ":ra/image": "GET",
-          "": "POST",
-          ":ra": "PUT",
-          ":ra": "DELETE"
         }
       },
       {
@@ -22,9 +19,6 @@
           "": "GET",
           ":key": "GET",
           ":ra/:weekday": "GET",
-          "": "POST",
-          ":id": "PUT",
-          ":id": "DELETE"
         }
       }
     ],

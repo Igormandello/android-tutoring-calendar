@@ -1,35 +1,28 @@
 // tutors controller routes
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
+var mssql   = require('mssql');
+var sql     = require('../sql')
 
 // get /api/tutors/
-router.get('/',(req,res) => {
-  
+router.get('/', async (req,res) => {
+  let query = await sql.executeQuery('select * from tutor')
+  res.json(query.recordset)
 });
 
 // get /api/tutors/:ra
-router.get('/:ra',(req,res) => {
- 
+router.get('/:ra', async (req,res) => {
+  let query = await sql.executeQuery('select * from tutor where ra = @ra', { name: 'ra', type: mssql.Int, value: req.params.ra })
+  
+  if (query.rowsAffected[0] > 0)
+    res.json(query.recordset[0])
+  else
+    res.json({})
 });
 
 // get /api/tutors/:ra/image
-router.get('/:ra/image',(req,res) => {
- 
-});
-
-// post /api/tutors/
-router.post('/',(req,res) => {
- 
-});
-
-// put /api/tutors/:ra
-router.put('/:ra',(req,res) => {
- 
-});
-
-// delete /api/tutors/:ra
-router.delete('/:ra',(req,res) => {
- 
+router.get('/:ra/image', async (req,res) => {
+  
 });
 
 module.exports = router;
