@@ -3,12 +3,13 @@ var bodyParser  = require('body-parser');
 
 var app         = express(); // Please do not remove this line, since CLI uses this line as guidance to import new controllers
 
+require('dotenv').config()
 
-var tutorschedulesController = require('./rest/controllers/tutorschedulesController');
-app.use('/api/tutorschedules', tutorschedulesController);
+var tutorSchedulesController = require('./controllers/tutorSchedulesController');
+app.use('/api/tutorSchedules', tutorSchedulesController);
 
 
-var tutorsController = require('./rest/controllers/tutorsController');
+var tutorsController = require('./controllers/tutorsController');
 app.use('/api/tutors', tutorsController);
 
 app.use(bodyParser.urlencoded({ extended: false }));
