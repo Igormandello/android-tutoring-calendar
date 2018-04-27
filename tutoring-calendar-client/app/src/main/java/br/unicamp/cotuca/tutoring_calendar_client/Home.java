@@ -15,8 +15,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        cardTutors = (CardView) findViewById(R.id.cardTutors);
-        cardWeek = (CardView) findViewById(R.id.cardWeek);
+        cardTutors =  findViewById(R.id.cardTutors);
+        cardWeek = findViewById(R.id.cardWeek);
 
         cardTutors.setOnClickListener(this);
         cardWeek.setOnClickListener(this);

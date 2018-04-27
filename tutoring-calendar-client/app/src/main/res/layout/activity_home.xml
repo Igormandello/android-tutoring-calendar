@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:allowUndo="false"
-        android:fontFamily="serif"
+        android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/darkblue"
@@ -81,7 +81,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_gravity="center_vertical|center|start"

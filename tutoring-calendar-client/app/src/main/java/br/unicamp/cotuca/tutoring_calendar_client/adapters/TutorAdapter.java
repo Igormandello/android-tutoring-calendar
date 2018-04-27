@@ -25,7 +25,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
     private final ArrayList<Tutor> tutors;
 
     public TutorAdapter(@NonNull Context context, ArrayList<Tutor> tutors) {
-        super(context, R.layout.tutor_view, tutors);
+        super(context, R.layout.tutor_view);
         this.context = context;
         this.tutors = tutors;
     }
