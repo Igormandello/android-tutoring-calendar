@@ -48,6 +48,11 @@ public class Tutors extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Intent i = new Intent(this, TutorSelected.class);
+
+        Bundle b = new Bundle();
+        b.putInt("ra", 16179);
+        i.putExtras(b);
+
         startActivity(i);
     }
 }
