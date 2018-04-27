@@ -4,8 +4,9 @@
   "description": "",
   "main": "node ./rest/server.js",
   "scripts": {
+    "preinstall": "npm i -g nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./rest/server.js"
+    "start": "nodemon ./rest/server.js"
   },
   "author": "",
   "license": "",
