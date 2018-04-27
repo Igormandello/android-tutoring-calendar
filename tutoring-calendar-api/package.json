@@ -10,7 +10,9 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "body-parser": "*",
+    "dotenv": "^5.0.1",
     "express": "*",
-    "body-parser": "*"
+    "mssql": "^4.1.0"
   }
 }
