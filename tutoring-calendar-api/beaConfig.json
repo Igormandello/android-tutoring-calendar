@@ -1,0 +1,36 @@
+{
+  "serverPath": "./rest/server.js",
+  "controllersPath": "./rest/controllers",
+  "modelsPath": "./rest/models",
+  
+  "schema": {
+    "controllers": [
+      {
+        "name": "tutors",
+        "routes": {
+          "": "GET",
+          ":ra": "GET",
+          ":ra/image": "GET",
+        }
+      },
+      {
+        "name": "tutorSchedules",
+        "routes": {
+          "": "GET",
+          ":key": "GET",
+          ":ra/:weekday": "GET",
+        }
+      }
+    ],
+    "models": [
+      {
+        "name": "Tutor",
+        "props": "ra: Number, name: String, description: String"
+      },
+      {
+        "name": "TutorSchedule",
+        "props": "id: Number, tutorRA: Number, initialHour: Date, duration: Number, weekday: Number, place: String"
+      }
+    ]
+  }
+}
