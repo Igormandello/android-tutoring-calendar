@@ -2,7 +2,7 @@
 var express = require('express');
 var router  = express.Router();
 var mssql   = require('mssql');
-var sql     = require('../sql')
+var sql     = require('../sql');
 var base64  = require('base64-img');
 
 // get /api/tutors/
