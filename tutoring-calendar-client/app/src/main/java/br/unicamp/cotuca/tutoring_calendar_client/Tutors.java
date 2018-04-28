@@ -39,6 +39,11 @@ public class Tutors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutors);
 
+        lvTutors = findViewById(R.id.lvTutors);
+
+        //------------------------------------------------
+        // UPDATE THIS: ADD IMAGE OF TUTORS
+        //------------------------------------------------
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
@@ -65,12 +70,11 @@ public class Tutors extends AppCompatActivity {
                         Log.e("volley", volleyError.toString());
                     }
                 });
-
-
         queue.add(request);
+        //------------------------------------------------
+        // END///UPDATE THIS
+        //------------------------------------------------
 
-
-        lvTutors = findViewById(R.id.lvTutors);
         ArrayAdapter adapter = new TutorAdapter(this, tutors);
         lvTutors.setAdapter(adapter);
 
@@ -85,8 +89,11 @@ public class Tutors extends AppCompatActivity {
                 Intent intent = new Intent(Tutors.this, TutorSelected.class);
 
                 int ra = tutors.get(i).getRa();
+                String tutorName = tutors.get(i).getName();
+
 
                 intent.putExtra("ra", ra);
+                intent.putExtra("tutorName", tutorName);
 
                 startActivity(intent);
             }
