@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -24,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import br.unicamp.cotuca.tutoring_calendar_client.adapters.TutorAdapter;
 import models.Tutor;
@@ -46,6 +48,7 @@ public class Tutors extends AppCompatActivity {
         //------------------------------------------------
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        final CountDownLatch c = new CountDownLatch(1);
         JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -62,6 +65,13 @@ public class Tutors extends AppCompatActivity {
                                 Log.e("volley", e.toString());
                             }
                         }
+
+                        ArrayAdapter adapter = new TutorAdapter(Tutors.this, tutors);
+                        lvTutors.setAdapter(adapter);
+
+                        if (tutors.size() == 0) {
+                            lvTutors.setEmptyView(findViewById(R.id.empty_list_item));
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -74,13 +84,6 @@ public class Tutors extends AppCompatActivity {
         //------------------------------------------------
         // END///UPDATE THIS
         //------------------------------------------------
-
-        ArrayAdapter adapter = new TutorAdapter(this, tutors);
-        lvTutors.setAdapter(adapter);
-
-        if (tutors.size() == 0) {
-            lvTutors.setEmptyView(findViewById(R.id.empty_list_item));
-        }
 
         lvTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -96,6 +99,14 @@ public class Tutors extends AppCompatActivity {
                 intent.putExtra("tutorName", tutorName);
 
                 startActivity(intent);
+            }
+        });
+
+        TextView t = findViewById(R.id.txtTitle);
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TutorAdapter a = (TutorAdapter) lvTutors.getAdapter();
             }
         });
     }

@@ -25,7 +25,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
     private final ArrayList<Tutor> tutors;
 
     public TutorAdapter(@NonNull Context context, ArrayList<Tutor> tutors) {
-        super(context, R.layout.tutor_view);
+        super(context, R.layout.tutor_view, tutors);
         this.context = context;
         this.tutors = tutors;
     }
@@ -43,7 +43,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
         ImageView txtTutorImg = (ImageView) rowView.findViewById(R.id.imgTutor);
 
         txtTutorName.setText(tutors.get(position).getName());
-        txtTutorDescription.setText(tutors.get(position).getDescription());
+        txtTutorDescription.setText((tutors.get(position).getDescription() == null ? "Sem descrição." : tutors.get(position).getDescription()));
         txtTutorImg.setImageResource(R.drawable.boy); // change later when get from API
 
         return rowView;
