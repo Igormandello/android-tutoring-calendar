@@ -1,8 +1,12 @@
 package br.unicamp.cotuca.tutoring_calendar_client;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,10 +60,15 @@ public class Tutors extends AppCompatActivity {
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                byte[] data = Base64.decode(jsonObject.getString("image").split(",")[1], Base64.DEFAULT);
+                                Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
+
                                 tutors.add(new Tutor(
                                            jsonObject.getInt("ra"),
                                            jsonObject.getString("name"),
-                                           jsonObject.getString("description")));
+                                           jsonObject.getString("description"),
+                                           img));
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());

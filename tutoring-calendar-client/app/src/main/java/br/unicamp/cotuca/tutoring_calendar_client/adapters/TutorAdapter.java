@@ -44,7 +44,7 @@ public class TutorAdapter extends ArrayAdapter<Tutor> {
 
         txtTutorName.setText(tutors.get(position).getName());
         txtTutorDescription.setText((tutors.get(position).getDescription() == null ? "Sem descrição." : tutors.get(position).getDescription()));
-        txtTutorImg.setImageResource(R.drawable.boy); // change later when get from API
+        txtTutorImg.setImageBitmap(tutors.get(position).getImage());
 
         return rowView;
     }
