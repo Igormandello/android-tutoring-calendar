@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleAdapter;
@@ -37,27 +38,54 @@ public class WeekDaySelected extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_day_selected);
 
+        int weekday = getIntent().getExtras().getInt("weekDaySelected");
+
         lvWeekDaySchedule = findViewById(R.id.lvWeekDaySchedule);
         txtWeekDaySelected = findViewById(R.id.txtWeekDaySelected);
 
-        //------------------------------------------------
-        // UPDATE THIS: CREATE ARRAY LIST OF SCHEDULETUTORS CORRECTLY
-        //------------------------------------------------
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
+        final ArrayList<Tutor> tutors = new ArrayList<>();
+
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+        final JsonArrayRequest request2 = new JsonArrayRequest(Utils.API_URL + "/tutorSchedules/" + (weekday + 1),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                String[] time = jsonObject.getString("initial_hour").split(":");
+
+                                Time initialHour = new Time(Integer.parseInt(time[0]), Integer.parseInt(time[1]), 0);
+                                long duration = 1000 * 60 * Integer.parseInt(jsonObject.getString("duration"));
+                                Time finalHour = new Time(initialHour.getTime() + duration);
+
+                                String location = jsonObject.getString("place");
+
+                                int tutorRa = jsonObject.getInt("tutor_ra");
+                                String tutorName = "";
+                                for (Tutor t : tutors)
+                                    if (t.getRa() == tutorRa) {
+                                        tutorName = t.getName();
+                                        break;
+                                    }
+
                                 scheduleTutors.add(new ScheduleTutor(
-                                        jsonObject.getString("name"),
-                                        jsonObject.getString("schedule")));
+                                        tutorName,
+                                        location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()
+                                ));
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());
                             }
+                        }
+
+                        ArrayAdapter adapter = new ScheduleTutorAdapter(WeekDaySelected.this, scheduleTutors);
+                        lvWeekDaySchedule.setAdapter(adapter);
+
+                        if (scheduleTutors.size() == 0) {
+                            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item)); // change xml
                         }
                     }
                 },
@@ -68,22 +96,37 @@ public class WeekDaySelected extends AppCompatActivity {
                     }
                 });
 
+        JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            try {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                int ra = jsonObject.getInt("ra");
+                                String name = jsonObject.getString("name");
+
+                                tutors.add(new Tutor(ra, name, "", null));
+                            }
+                            catch(JSONException e) {
+                                Log.e("volley", e.toString());
+                            }
+                        }
+
+                        queue.add(request2);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e("volley", volleyError.toString());
+                    }
+                });
         queue.add(request);
-        //------------------------------------------------
-        // END//UPDATE THIS
-        //------------------------------------------------
-
-        ArrayAdapter adapter = new ScheduleTutorAdapter(this, scheduleTutors);
-        lvWeekDaySchedule.setAdapter(adapter);
-
-        if (scheduleTutors.size() == 0) {
-            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item)); // change xml
-        }
-
-        int weekDaySelected = getIntent().getExtras().getInt("weekDaySelected");
 
         String[] weekDaysString = getResources().getStringArray(R.array.week_days);
-        String weekDayString = weekDaysString[weekDaySelected];
+        String weekDayString = weekDaysString[weekday];
 
         txtWeekDaySelected.setText(weekDayString);
     }

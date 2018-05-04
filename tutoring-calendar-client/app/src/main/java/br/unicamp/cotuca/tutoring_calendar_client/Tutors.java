@@ -56,7 +56,7 @@ public class Tutors extends AppCompatActivity {
         setContentView(R.layout.activity_tutors);
 
         lvTutors = findViewById(R.id.lvTutors);
-        
+
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
                 new Response.Listener<JSONArray>() {

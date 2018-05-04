@@ -26,9 +26,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleAdapter;
+import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleTutorAdapter;
 import models.Schedule;
 import models.ScheduleTutor;
 import models.Tutor;
@@ -39,7 +41,7 @@ public class TutorSelected extends AppCompatActivity {
     private ListView lvShedules;
     private TextView txtTutorName;
 
-    private ArrayList<Schedule> schedules;
+    private ArrayList<ScheduleTutor> schedules = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +52,11 @@ public class TutorSelected extends AppCompatActivity {
         txtTutorName = findViewById(R.id.txtTutorName);
 
         int ra = getIntent().getExtras().getInt("ra");
-        String tutorName = getIntent().getExtras().getString("tutorName");
+        final String tutorName = getIntent().getExtras().getString("tutorName");
 
-        //------------------------------------------------
-        // UPDATE THIS: CREATE ARRAY LIST OF SCHEDULE CORRECTLY
-        //------------------------------------------------
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutorSchedule/" + ra,
+        JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutorSchedules/" + ra,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
@@ -65,14 +64,25 @@ public class TutorSelected extends AppCompatActivity {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-/*                                schedules.add(new Schedule(
-                                        jsonObject.getString("name"),
-                                        jsonObject.getString("schedule")));*/
+                                String[] time = jsonObject.getString("initial_hour").split(":");
+
+                                Time initialHour = new Time(Integer.parseInt(time[0]), Integer.parseInt(time[1]), 0);
+                                long duration = 1000 * 60 * Integer.parseInt(jsonObject.getString("duration"));
+                                Time finalHour = new Time(initialHour.getTime() + duration);
+
+                                String location = jsonObject.getString("place");
+                                schedules.add(new ScheduleTutor(
+                                    tutorName,
+                                    location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()
+                                ));
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());
                             }
                         }
+
+                        ArrayAdapter adapter = new ScheduleTutorAdapter(TutorSelected.this, schedules);
+                        lvShedules.setAdapter(adapter);
                     }
                 },
                 new Response.ErrorListener() {
@@ -82,14 +92,12 @@ public class TutorSelected extends AppCompatActivity {
                     }
                 });
         queue.add(request);
-        //------------------------------------------------
-        // END//UPDATE THIS
-        //------------------------------------------------
 
-        ArrayAdapter adapter = new ScheduleAdapter(this, schedules);
-        lvShedules.setAdapter(adapter);
-
-        txtTutorName.setText(tutorName);
+//        txtTutorName.setText(tutorName);
+//
+//        if (schedules.size() == 0) {
+//            lvShedules.setEmptyView(findViewById(R.id.empty_list_item));
+//        }
     }
 
 }

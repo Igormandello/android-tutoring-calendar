@@ -28,7 +28,7 @@ router.get('/:key', async (req,res) => {
     
     for (i = 0; i < query.recordset.length; i++) {
       let d = moment(query.recordset[i].initial_hour).utcOffset(0)
-      query.recordset[i].initial_hour = d.format('h:mm')
+      query.recordset[i].initial_hour = d.format('H:mm')
     }
 
     res.json(query.recordset)
