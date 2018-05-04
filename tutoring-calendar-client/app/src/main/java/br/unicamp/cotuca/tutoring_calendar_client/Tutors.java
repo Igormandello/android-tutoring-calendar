@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -28,8 +29,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import br.unicamp.cotuca.tutoring_calendar_client.adapters.TutorAdapter;
 import models.Tutor;
@@ -46,13 +56,8 @@ public class Tutors extends AppCompatActivity {
         setContentView(R.layout.activity_tutors);
 
         lvTutors = findViewById(R.id.lvTutors);
-
-        //------------------------------------------------
-        // UPDATE THIS: ADD IMAGE OF TUTORS
-        //------------------------------------------------
+        
         RequestQueue queue = Volley.newRequestQueue(this);
-
-        final CountDownLatch c = new CountDownLatch(1);
         JsonArrayRequest request = new JsonArrayRequest(Utils.API_URL + "/tutors",
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -90,9 +95,6 @@ public class Tutors extends AppCompatActivity {
                     }
                 });
         queue.add(request);
-        //------------------------------------------------
-        // END///UPDATE THIS
-        //------------------------------------------------
 
         lvTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
