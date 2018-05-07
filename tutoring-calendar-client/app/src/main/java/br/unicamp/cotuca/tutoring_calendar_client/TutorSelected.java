@@ -1,56 +1,45 @@
 package br.unicamp.cotuca.tutoring_calendar_client;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleAdapter;
-import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleTutorAdapter;
-import models.Schedule;
-import models.ScheduleTutor;
-import models.Tutor;
+import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleWeekDayAdapter;
+import models.ScheduleWeekDay;
 import utils.Utils;
 
 public class TutorSelected extends AppCompatActivity {
 
-    private ListView lvShedules;
+    private ListView lvSchedules;
     private TextView txtTutorName;
 
-    private ArrayList<ScheduleTutor> schedules = new ArrayList<>();
+    private ArrayList<ScheduleWeekDay> schedules = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_selected);
 
-        lvShedules = findViewById(R.id.lvSchedules);
+        lvSchedules = findViewById(R.id.lvSchedules);
         txtTutorName = findViewById(R.id.txtTutorName);
 
+        // Tutor selected information: ra and name
         int ra = getIntent().getExtras().getInt("ra");
         final String tutorName = getIntent().getExtras().getString("tutorName");
 
@@ -60,9 +49,18 @@ public class TutorSelected extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
+                        String schedule = "";
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                String location = jsonObject.getString("place");
+
+                                // set String weekDay based on the index of the attribute 'weekday' returned
+                                int weekDayIndex = jsonObject.getInt("weekday");
+                                String[] weekDaysString = getResources().getStringArray(R.array.week_days);
+
+                                String weekDay = weekDaysString[weekDayIndex - 1];
 
                                 String[] time = jsonObject.getString("initial_hour").split(":");
 
@@ -70,19 +68,22 @@ public class TutorSelected extends AppCompatActivity {
                                 long duration = 1000 * 60 * Integer.parseInt(jsonObject.getString("duration"));
                                 Time finalHour = new Time(initialHour.getTime() + duration);
 
-                                String location = jsonObject.getString("place");
-                                schedules.add(new ScheduleTutor(
-                                    tutorName,
-                                    location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()
-                                ));
+                                if (i + 1 != jsonArray.length() && weekDayIndex == jsonArray.getJSONObject(i + 1).getInt("weekday")) {
+                                    schedule += location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes() + "\n";
+                                }
+                                else {
+                                    schedules.add(new ScheduleWeekDay(
+                                            weekDay, schedule + location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()));
+                                    schedule = "";
+                                }
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());
                             }
                         }
 
-                        ArrayAdapter adapter = new ScheduleTutorAdapter(TutorSelected.this, schedules);
-                        lvShedules.setAdapter(adapter);
+                        ArrayAdapter adapter = new ScheduleWeekDayAdapter(TutorSelected.this, schedules);
+                        lvSchedules.setAdapter(adapter);
                     }
                 },
                 new Response.ErrorListener() {
@@ -93,11 +94,11 @@ public class TutorSelected extends AppCompatActivity {
                 });
         queue.add(request);
 
-//        txtTutorName.setText(tutorName);
-//
-//        if (schedules.size() == 0) {
-//            lvShedules.setEmptyView(findViewById(R.id.empty_list_item));
-//        }
+        txtTutorName.setText(tutorName);
+
+        if (schedules.size() == 0) {
+            lvSchedules.setEmptyView(findViewById(R.id.empty_list_item));
+        }
     }
 
 }

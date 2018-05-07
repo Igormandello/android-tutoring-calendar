@@ -20,9 +20,7 @@ import org.json.JSONObject;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleAdapter;
 import br.unicamp.cotuca.tutoring_calendar_client.adapters.ScheduleTutorAdapter;
-import models.Schedule;
 import models.ScheduleTutor;
 import models.Tutor;
 import utils.Utils;
@@ -51,6 +49,7 @@ public class WeekDaySelected extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
+                        boolean tutorEqual = true;
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -83,10 +82,6 @@ public class WeekDaySelected extends AppCompatActivity {
 
                         ArrayAdapter adapter = new ScheduleTutorAdapter(WeekDaySelected.this, scheduleTutors);
                         lvWeekDaySchedule.setAdapter(adapter);
-
-                        if (scheduleTutors.size() == 0) {
-                            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item)); // change xml
-                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -129,5 +124,9 @@ public class WeekDaySelected extends AppCompatActivity {
         String weekDayString = weekDaysString[weekday];
 
         txtWeekDaySelected.setText(weekDayString);
+
+        if (scheduleTutors.size() == 0) {
+            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item)); // change xml
+        }
     }
 }

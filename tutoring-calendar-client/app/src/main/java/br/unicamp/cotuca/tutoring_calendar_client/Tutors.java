@@ -82,10 +82,6 @@ public class Tutors extends AppCompatActivity {
 
                         ArrayAdapter adapter = new TutorAdapter(Tutors.this, tutors);
                         lvTutors.setAdapter(adapter);
-
-                        if (tutors.size() == 0) {
-                            lvTutors.setEmptyView(findViewById(R.id.empty_list_item));
-                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -113,12 +109,8 @@ public class Tutors extends AppCompatActivity {
             }
         });
 
-        TextView t = findViewById(R.id.txtTitle);
-        t.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TutorAdapter a = (TutorAdapter) lvTutors.getAdapter();
-            }
-        });
+        if (tutors.size() == 0) {
+            lvTutors.setEmptyView(findViewById(R.id.empty_list_item));
+        }
     }
 }

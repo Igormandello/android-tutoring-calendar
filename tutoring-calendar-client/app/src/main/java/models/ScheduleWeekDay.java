@@ -4,12 +4,15 @@ package models;
  * Created by bart on 25/04/2018.
  */
 
-public class Schedule {
+/**
+ * ScheduleWeekDay: used to show the schedule of one day of the TUTOR SELECTED
+ */
+public class ScheduleWeekDay {
 
-    private String weekDay;
+    private String weekDay; /* example: Monday, Tuesday... */
     private String schedule;
 
-    public Schedule(String weekDay, String schedule) {
+    public ScheduleWeekDay(String weekDay, String schedule) {
         setWeekDay(weekDay);
         setSchedule(schedule);
     }

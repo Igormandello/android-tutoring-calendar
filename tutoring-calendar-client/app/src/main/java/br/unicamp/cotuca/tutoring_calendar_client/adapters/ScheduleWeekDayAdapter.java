@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import br.unicamp.cotuca.tutoring_calendar_client.R;
-import models.Schedule;
+import models.ScheduleWeekDay;
 
-public class ScheduleAdapter extends ArrayAdapter<Schedule> {
+public class ScheduleWeekDayAdapter extends ArrayAdapter<ScheduleWeekDay> {
 
     private final Context context;
-    private final ArrayList<Schedule> schedules;
+    private final ArrayList<ScheduleWeekDay> schedules;
 
-    public ScheduleAdapter(Context context, ArrayList<Schedule> schedules) {
+    public ScheduleWeekDayAdapter(Context context, ArrayList<ScheduleWeekDay> schedules) {
         super(Objects.requireNonNull(context), R.layout.schedule_view, schedules);
         this.context = context;
         this.schedules = schedules;
@@ -34,8 +34,8 @@ public class ScheduleAdapter extends ArrayAdapter<Schedule> {
 
         View rowView = inflater.inflate(R.layout.schedule_view, parent, false);
 
-        TextView txtWeekDay   = (TextView) rowView.findViewById(R.id.txtWeekDay);
-        TextView txtSchedule = (TextView) rowView.findViewById(R.id.txtSchedule);
+        TextView txtWeekDay  = rowView.findViewById(R.id.txtWeekDay);
+        TextView txtSchedule = rowView.findViewById(R.id.txtSchedule);
 
         txtWeekDay.setText(schedules.get(position).getWeekDay());
         txtSchedule.setText(schedules.get(position).getSchedule());
