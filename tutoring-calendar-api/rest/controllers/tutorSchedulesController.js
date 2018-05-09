@@ -15,7 +15,7 @@ router.get('/', async (req,res) => {
 router.get('/:key', async (req,res) => {
   let key = req.params.key + ''
   if (key.length === 5) {
-    let query = await sql.executeQuery('select * from tutor_schedule where tutor_ra = @ra', { name: 'ra', type: mssql.Int, value: key })
+    let query = await sql.executeQuery('select * from tutor_schedule where tutor_ra = @ra order by weekday asc, initial_hour asc', { name: 'ra', type: mssql.Int, value: key })
 
     for (i = 0; i < query.recordset.length; i++) {
       let d = moment(query.recordset[i].initial_hour).utcOffset(0)
@@ -24,7 +24,7 @@ router.get('/:key', async (req,res) => {
 
     res.json(query.recordset)
   } else {
-    let query = await sql.executeQuery('select * from tutor_schedule where weekday = @weekday', { name: 'weekday', type: mssql.Int, value: key})
+    let query = await sql.executeQuery('select * from tutor_schedule where weekday = @weekday order by tutor_ra asc, initial_hour asc', { name: 'weekday', type: mssql.Int, value: key})
     
     for (i = 0; i < query.recordset.length; i++) {
       let d = moment(query.recordset[i].initial_hour).utcOffset(0)
@@ -39,7 +39,7 @@ router.get('/:key', async (req,res) => {
 
 // get /api/tutorSchedules/:ra/:weekday
 router.get('/:ra/:weekday', async (req,res) => {
-  let query = await sql.executeQuery('select * from tutor_schedule where tutor_ra = @ra and weekday = @weekday', 
+  let query = await sql.executeQuery('select * from tutor_schedule where tutor_ra = @ra and weekday = @weekday order by initial_hour asc', 
                                     { name: 'ra', type: mssql.Int, value: req.params.ra },
                                     { name: 'weekday', type: mssql.Int, value: req.params.weekday })
 
