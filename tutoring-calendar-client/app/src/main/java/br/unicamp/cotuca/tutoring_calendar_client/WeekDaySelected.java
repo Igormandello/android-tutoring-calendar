@@ -49,7 +49,8 @@ public class WeekDaySelected extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-                        boolean tutorEqual = true;
+                        String scheduleString = "";
+                        String actualName = "";
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -70,15 +71,30 @@ public class WeekDaySelected extends AppCompatActivity {
                                         break;
                                     }
 
-                                scheduleTutors.add(new ScheduleTutor(
-                                        tutorName,
-                                        location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()
-                                ));
+                                if (!tutorName.equals(actualName)) {
+                                    if (!actualName.equals(""))
+                                        scheduleTutors.add(new ScheduleTutor(
+                                                actualName,
+                                                scheduleString
+                                        ));
+
+                                    scheduleString = "";
+                                    actualName = new String(tutorName);
+                                }
+
+                                scheduleString += location + ": "
+                                                  + time[0] + ":" + time[1]  + " - "
+                                                  + finalHour.getHours() + ":" + (finalHour.getMinutes() < 10 ? "0" : "") + finalHour.getMinutes() + "\n";
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());
                             }
                         }
+
+                        scheduleTutors.add(new ScheduleTutor(
+                            actualName,
+                            scheduleString
+                        ));
 
                         ArrayAdapter adapter = new ScheduleTutorAdapter(WeekDaySelected.this, scheduleTutors);
                         lvWeekDaySchedule.setAdapter(adapter);

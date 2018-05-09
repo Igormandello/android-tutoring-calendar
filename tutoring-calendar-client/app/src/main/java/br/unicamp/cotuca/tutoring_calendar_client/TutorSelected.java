@@ -50,6 +50,7 @@ public class TutorSelected extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
                         String schedule = "";
+                        String actualWeekday = "";
                         for(int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -68,19 +69,30 @@ public class TutorSelected extends AppCompatActivity {
                                 long duration = 1000 * 60 * Integer.parseInt(jsonObject.getString("duration"));
                                 Time finalHour = new Time(initialHour.getTime() + duration);
 
-                                if (i + 1 != jsonArray.length() && weekDayIndex == jsonArray.getJSONObject(i + 1).getInt("weekday")) {
-                                    schedule += location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes() + "\n";
-                                }
-                                else {
-                                    schedules.add(new ScheduleWeekDay(
-                                            weekDay, schedule + location + ": " + time[0] + ":" + time[1] + " - " + finalHour.getHours() + ":" + finalHour.getMinutes()));
+                                if (!weekDay.equals(actualWeekday)) {
+                                    if (!actualWeekday.equals(""))
+                                        schedules.add(new ScheduleWeekDay(
+                                                actualWeekday,
+                                                schedule
+                                        ));
+
+                                    actualWeekday = new String(weekDay);
                                     schedule = "";
                                 }
+
+                                schedule += location + ": "
+                                            + time[0] + ":" + time[1] + " - "
+                                            + finalHour.getHours() + ":" + (finalHour.getMinutes() < 10 ? "0" : "") + finalHour.getMinutes() + "\n";
                             }
                             catch(JSONException e) {
                                 Log.e("volley", e.toString());
                             }
                         }
+
+                        schedules.add(new ScheduleWeekDay(
+                                actualWeekday,
+                                schedule
+                        ));
 
                         ArrayAdapter adapter = new ScheduleWeekDayAdapter(TutorSelected.this, schedules);
                         lvSchedules.setAdapter(adapter);
