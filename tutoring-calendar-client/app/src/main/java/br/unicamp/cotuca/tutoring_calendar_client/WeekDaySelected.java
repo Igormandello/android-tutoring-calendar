@@ -91,13 +91,19 @@ public class WeekDaySelected extends AppCompatActivity {
                             }
                         }
 
-                        scheduleTutors.add(new ScheduleTutor(
-                            actualName,
-                            scheduleString
-                        ));
+                        if (!scheduleString.equals(""))
+                            scheduleTutors.add(new ScheduleTutor(
+                                actualName,
+                                scheduleString
+                            ));
 
-                        ArrayAdapter adapter = new ScheduleTutorAdapter(WeekDaySelected.this, scheduleTutors);
-                        lvWeekDaySchedule.setAdapter(adapter);
+                        if (scheduleTutors.size() == 0)
+                            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item));
+                        else {
+                            ArrayAdapter adapter = new ScheduleTutorAdapter(WeekDaySelected.this, scheduleTutors);
+                            lvWeekDaySchedule.setAdapter(adapter);
+                        }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -140,9 +146,5 @@ public class WeekDaySelected extends AppCompatActivity {
         String weekDayString = weekDaysString[weekday];
 
         txtWeekDaySelected.setText(weekDayString);
-
-        if (scheduleTutors.size() == 0) {
-            lvWeekDaySchedule.setEmptyView(findViewById(R.id.empty_list_item)); // change xml
-        }
     }
 }
